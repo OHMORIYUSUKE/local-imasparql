@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  fuseki:
+    build: .
+    ports:
+      - "3030:3030"
+    volumes:
+      - ./data/imasparql:/fuseki/data/imasparql
+      - fuseki_db:/fuseki/databases/imasdb
+    environment:
+      - FUSEKI_BASE=/fuseki
+    restart: unless-stopped
+
+volumes:
+  fuseki_db:
