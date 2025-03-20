@@ -1,4 +1,5 @@
 #!/bin/bash
+# データ変換スクリプト
 
 # データベースディレクトリが空の場合のみデータをロード
 if [ -z "$(ls -A /fuseki/databases/imasdb)" ]; then
@@ -29,9 +30,3 @@ if [ -z "$(ls -A /fuseki/databases/imasdb)" ]; then
     echo "Checking loaded data count..."
     ./tdb2.tdbquery --loc=/fuseki/databases/imasdb 'SELECT (count(*) as ?total) WHERE { ?s ?p ?o }'
 fi
-
-# サーバーを起動
-echo "Starting Fuseki server..."
-
-# Fusekiサーバーを起動
-exec /opt/fuseki/fuseki-server --update --loc=/fuseki/databases/imasdb /imasparql

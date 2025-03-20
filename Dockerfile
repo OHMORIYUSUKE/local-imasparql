@@ -60,8 +60,15 @@ RUN echo '@prefix fuseki:  <http://jena.apache.org/fuseki#> .' > ${FUSEKI_BASE}/
 
 EXPOSE 3030
 
-# 起動スクリプトをコピーして実行権限を付与
-COPY start.sh /start.sh
-RUN chmod +x /start.sh
+# データディレクトリをコピー
+COPY ./data/imasparql /fuseki/data/imasparql
 
-CMD ["/start.sh"]
+# 起動スクリプトをコピーして実行権限を付与
+COPY convert.sh /convert.sh
+RUN chmod +x /convert.sh
+
+# データを変換
+RUN sh /convert.sh
+
+# Fusekiサーバーを起動
+CMD ["/opt/fuseki/fuseki-server", "--update", "--loc=/fuseki/databases/imasdb", "/imasparql"]
